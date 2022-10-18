@@ -38,21 +38,30 @@ export const Calculation = (props: CalculationProps) => {
 
         //have Discount
         if (appleCount > 1) {// 2 or above
-            return total * appleDiscount;
+            return avoidNan(total * appleDiscount);
         }
-        return total; //withoutDiscount
+
+        return avoidNan(total); //withoutDiscount
     }
 
     const calGrapeTotal = (): number => {
         const totalNumOfItemReceiving = 1 + numOfBuyToGetOneFree;
         if (grapeCount > 1) {
-            return (grapeCount % (totalNumOfItemReceiving) + grapeCount) / (totalNumOfItemReceiving) * grapePrice; //adjust the count to always be divided by a dividable of totalNumOfItemReceiving 
+            const discounted = (grapeCount % (totalNumOfItemReceiving) + grapeCount) / (totalNumOfItemReceiving) * grapePrice; //adjust the count to always be divided by a dividable of totalNumOfItemReceiving 
+            return avoidNan(discounted);
         }
-        return grapeCount * grapePrice;
+
+        const total = grapeCount * grapePrice;
+        return avoidNan(total);
     }
 
     const calPeachTotal = () => {
-        return peachCount * peachPrice; //direct calculation
+        const total = peachCount * peachPrice; //direct calculation
+        return avoidNan(total);
+    }
+
+    const avoidNan = (value: number) => { //avoid display Nan on the screen
+        return !isNaN(value) ? value : 0;
     }
 
     return (
