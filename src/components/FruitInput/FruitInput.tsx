@@ -10,7 +10,11 @@ export interface FruitInputProps {
 
 export const FruitInput = (props: FruitInputProps) => {
 
-
+    const preventNonIntegerValue = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (!/[0-9]/.test(event.key)) {
+            event.preventDefault();
+        }
+    }
 
     const setFruitValue = (value: string, fruitName: string) => {
         switch (fruitName) {
@@ -52,11 +56,7 @@ export const FruitInput = (props: FruitInputProps) => {
                             </div>
                             <input
                                 defaultValue={0}
-                                onKeyPress={(event) => {
-                                    if (!/[0-9]/.test(event.key)) {
-                                        event.preventDefault();
-                                    }
-                                }}
+                                onKeyPress={preventNonIntegerValue}
                                 onChange={(event) => setFruitValue(event.target.value, fruit.name)}
                             />
                         </div>
